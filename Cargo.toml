@@ -1,6 +1,6 @@
 [package]
 name = "self-compare"
-version = "0.1.2"
+version = "0.2.0"
 description = "crate for mutably comparing all elements of a slice with each other"
 authors = ["LFalch <lucas@wasd.dk>"]
 repository = "https://github.com/LFalch/self-compare"

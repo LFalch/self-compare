@@ -186,7 +186,7 @@ mod tests {
     }
     #[test]
     fn one_element() {
-        let mut v = [1];
+        let v = [1];
         let mut c = v.self_comparer();
 
         assert!(c.next().is_none())
