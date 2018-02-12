@@ -3,7 +3,7 @@ name = "self-compare"
 version = "0.1.2"
 description = "crate for mutably comparing all elements of a slice with each other"
 authors = ["LFalch <lucas@wasd.dk>"]
-repository "https://github.com/LFalch/self-compare"
+repository = "https://github.com/LFalch/self-compare"
 homepage = "https://github.com/LFalch/self-compare"
 readme = "README.md"
 license = "MIT"
