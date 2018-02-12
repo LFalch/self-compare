@@ -85,5 +85,46 @@ mod tests {
         assert_eq!(c.next(), Some((&mut 1, &mut 2)));
         assert!(c.next().is_none());
     }
+    #[test]
+    fn compare_and_enumerate_yield_the_same() {
+        let mut v: Vec<_> = (0..100).collect();
+
+        let mut regular_comparisons = Vec::new();
+        let mut enumerated_comparisons = Vec::new();
+
+        compare(&mut v, |a, b| regular_comparisons.push((*a, *b)));
+        compare_enumerated(&mut v, |(_, a), (_, b)| enumerated_comparisons.push((*a, *b)));
+
+        assert_eq!(regular_comparisons, enumerated_comparisons)
+    }
+    #[test]
+    fn all_compare_0() {
+        all_compare(0);
+    }
+    #[test]
+    fn all_compare_1() {
+        all_compare(1);
+    }
+    #[test]
+    fn all_compare_1000() {
+        all_compare(1000);
+    }
+    fn all_compare(size: usize) {
+        let mut vec = vec![Vec::with_capacity(size.saturating_sub(1)); size];
+
+        compare_enumerated(&mut vec, |(i, a), (j, b)| {
+            let id = a.binary_search(&j).unwrap_err();
+            a.insert(id, j);
+            let id = b.binary_search(&i).unwrap_err();
+            b.insert(id, i);
+        });
+
+        assert!(vec
+            .into_iter()
+            .enumerate()
+            .map(|(i, v)| v.into_iter().zip((0..size).filter(move |x| x != &i)))
+            .all(|mut v| v.all(|(a, b)| a == b))
+        );
+    }
     // TODO Test that all elements of a bigger array are being compared
 }
