@@ -23,7 +23,7 @@ impl<'a, T: 'a> Comparer<'a, T> {
     }
     /// Optionally returns mutable reference to two elements until all elements have been compared
     pub fn next(&mut self) -> Option<(&mut T, &mut T)> {
-        if self.i == self.list.len()-1 {
+        if self.list.is_empty() || self.i == self.list.len()-1 {
             return None;
         }
         let (x, y) = (self.i, self.j);
@@ -60,4 +60,30 @@ pub fn compare_enumerated<'a, T: 'a, F: FnMut((usize, &mut T), (usize, &mut T))>
     while let Some((a, b)) = c.next_enumerated() {
         f(a, b);
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn empty() {
+        let mut v: [i32; 0] = [];
+        let mut c = Comparer::new(&mut v);
+        assert!(c.next().is_none())
+    }
+    #[test]
+    fn one_element() {
+        let mut v = [1];
+        let mut c = Comparer::new(&mut v);
+        assert!(c.next().is_none())
+    }
+    #[test]
+    fn two_elements() {
+        let mut v = [1, 2];
+        let mut c = Comparer::new(&mut v);
+        assert_eq!(c.next(), Some((&mut 1, &mut 2)));
+        assert!(c.next().is_none());
+    }
+    // TODO Test that all elements of a bigger array are being compared
 }
