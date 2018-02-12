@@ -6,5 +6,4 @@ authors = ["LFalch <lucas@wasd.dk>"]
 repository = "https://github.com/LFalch/self-compare"
 homepage = "https://github.com/LFalch/self-compare"
 readme = "README.md"
-license = "MIT"
 license-file = "LICENSE"
